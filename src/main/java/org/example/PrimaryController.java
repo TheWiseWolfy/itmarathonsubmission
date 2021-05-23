@@ -19,7 +19,6 @@ import java.util.ResourceBundle;
 public class PrimaryController implements Initializable {
 
     private MapInfo mapInfo;
-    private ParcareInfo parcareInfo;
     private UserInfo userInfo;
     private SQLite database;
 
@@ -51,7 +50,6 @@ public class PrimaryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        parcareInfo = new ParcareInfo();
         userInfo = new UserInfo();
         database = new SQLite();
 
@@ -80,7 +78,7 @@ public class PrimaryController implements Initializable {
                 int index = listView.getSelectionModel().getSelectedIndex();
                 userInfo.getListaRezervari().remove(index);
                 listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
-                updateNumarLocuri(parcareInfo.getNumarLocuri() + 1);
+                updateNumarLocuri(mapInfo.getCurrentPin().getLocuriLibere() + 1);
             }
         });
 
@@ -100,8 +98,8 @@ public class PrimaryController implements Initializable {
     }
 
     public void updateNumarLocuri(int nr) {
-        parcareInfo.setNumarLocuri(nr);
-        numarLocuriLabel.setText("Numar de locuri libere: " + parcareInfo.getNumarLocuri());
+        mapInfo.getCurrentPin().setNumarLocuri(nr);
+        numarLocuriLabel.setText("Numar de locuri libere: " + mapInfo.getCurrentPin().getLocuriLibere());
     }
 
     public void loadMap(String url) {
@@ -121,11 +119,14 @@ public class PrimaryController implements Initializable {
         menuParcare.setDisable(!dis);
         menuParcare.setVisible(dis);
         mesajLabel.setVisible(!dis);
+        masinaField.setText("Numar de Inmatriculare");
         if(dis) {
-            if(parcareInfo.getNumarLocuri() <= 0)
+            System.out.println("" + mapInfo.getCurrentPin().getLocuriLibere());
+            if(mapInfo.getCurrentPin().getLocuriLibere() <= 0)
                 vreauButton.setDisable(true);
-            Parcare parcare = mapInfo.getCurrentPin();
-            updateParcare(parcare);
+            else
+                vreauButton.setDisable(false);
+            updateParcare(mapInfo.getCurrentPin());
         }
     }
 
@@ -141,22 +142,25 @@ public class PrimaryController implements Initializable {
     public void changeProfile(boolean edit) {
         saveButton.setDisable(!edit);
         numeField.setEditable(edit);
-        masinaField.setEditable(edit);
+        numeField.setDisable(!edit);
+        telefonField.setDisable(!edit);
         telefonField.setEditable(edit);
     }
 
-    public void makeRezervation() throws RezervationException {
+    public void makeRezervation() throws RezervationException, InmatriculareException {
         if(userInfo.invalid())
             throw new RezervationException();
-        updateNumarLocuri(parcareInfo.getNumarLocuri() - 1);
-        if(parcareInfo.getNumarLocuri() <= 0)
+        if(masinaField.getText().equals("Numar de Inmatriculare") || masinaField.getText().equals(""))
+            throw new InmatriculareException();
+        updateNumarLocuri(mapInfo.getCurrentPin().getLocuriLibere() - 1);
+        if(mapInfo.getCurrentPin().getLocuriLibere() <= 0)
             vreauButton.setDisable(true);
 
-        RezervationClass rezervare = new RezervationClass(numeParcareLabel.getText(), userInfo.getCar());
+        RezervationClass rezervare = new RezervationClass(numeParcareLabel.getText(), masinaField.getText());
         userInfo.getListaRezervari().add(rezervare);
 
 
-        listView.getItems().add(numeParcareLabel.getText() + " | " + userInfo.getCar());
+        listView.getItems().add(numeParcareLabel.getText() + " | " + "Masina: " + masinaField.getText());
 
         mesajLabel.setVisible(true);
         mesajLabel.setText("Succes!");
@@ -170,6 +174,9 @@ public class PrimaryController implements Initializable {
             Alert emptyProfile = new Alert(Alert.AlertType.ERROR,"Please first complete your profile!");
             emptyProfile.show();
             displayMenuParcare(false);
+        } catch (InmatriculareException e) {
+            Alert emptyProfile = new Alert(Alert.AlertType.ERROR,"Please enter your license plate!");
+            emptyProfile.show();
         }
     }
 
@@ -178,14 +185,13 @@ public class PrimaryController implements Initializable {
     }
 
     public void saveProfile() {
-        userInfo.setCar(masinaField.getText());
         userInfo.setTel(telefonField.getText());
         userInfo.setName(numeField.getText());
         changeProfile(false);
     }
 
     public void deleteList() {
-        updateNumarLocuri(parcareInfo.getNumarLocuri() + listView.getItems().size());
+        updateNumarLocuri(mapInfo.getCurrentPin().getLocuriLibere() + listView.getItems().size());
         listView.getItems().clear();
     }
 

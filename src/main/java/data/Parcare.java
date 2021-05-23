@@ -37,4 +37,8 @@ public class Parcare
     public String getNume() {
         return nume_parcare;
     }
+
+    public void setNumarLocuri(int nr) {
+        locuri_libere = nr;
+    }
 }
