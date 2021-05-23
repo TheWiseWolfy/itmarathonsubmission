@@ -11,30 +11,30 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="org.example.PrimaryController">
+<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1024.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.PrimaryController">
   <tabs>
-    <Tab fx:id="MapTab" text="Map">
+    <Tab fx:id="MapTab" onSelectionChanged="#changeTab" text="Map">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <WebView fx:id="webView" layoutX="25.0" layoutY="18.0" prefHeight="630.0" prefWidth="791.0" />
+                  <WebView fx:id="webView" layoutX="5.0" layoutY="3.0" prefHeight="684.0" prefWidth="820.0" />
                   <Button layoutX="848.0" layoutY="24.0" mnemonicParsing="false" onAction="#center" prefHeight="54.0" prefWidth="127.0" text="Center?" />
                   <Button layoutX="848.0" layoutY="106.0" mnemonicParsing="false" onAction="#refresh" prefHeight="54.0" prefWidth="127.0" text="Refresh" />
                   <Button layoutX="849.0" layoutY="421.0" mnemonicParsing="false" onAction="#pinClick" prefHeight="157.0" prefWidth="136.0" text="TestClickPePin" />
-                  <AnchorPane fx:id="menuParcare" layoutX="210.0" layoutY="143.0" prefHeight="387.0" prefWidth="424.0" style="-fx-background-color: #dedede;">
+                  <AnchorPane fx:id="menuParcare" layoutX="203.0" layoutY="133.0" prefHeight="387.0" prefWidth="424.0" style="-fx-background-color: #dedede;">
                      <children>
-                        <Label fx:id="numeParcareLabel" layoutX="57.0" layoutY="23.0" prefHeight="49.0" prefWidth="315.0" text="Parcarea: Nume interesant de parcare">
+                        <Label fx:id="numeParcareLabel" alignment="CENTER" layoutX="18.0" layoutY="13.0" prefHeight="76.0" prefWidth="383.0" text="Parcarea: Nume interesant de parcare" textAlignment="CENTER" wrapText="true">
                            <font>
-                              <Font size="18.0" />
+                              <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="numarLocuriLabel" layoutX="105.0" layoutY="85.0" prefHeight="79.0" prefWidth="200.0" text="Numar de locuri libere: 7">
+                        <Label fx:id="numarLocuriLabel" alignment="CENTER" layoutX="109.0" layoutY="79.0" prefHeight="79.0" prefWidth="205.0" text="Numar de locuri libere: 7" textAlignment="CENTER" wrapText="true">
                            <font>
-                              <Font size="15.0" />
+                              <Font size="17.0" />
                            </font>
                         </Label>
-                        <Button fx:id="vreauButton" layoutX="98.0" layoutY="239.0" mnemonicParsing="false" onAction="#vreauLoc" prefHeight="74.0" prefWidth="211.0" text="Vreau loc de parcare" />
-                        <Label fx:id="mesajLabel" layoutX="97.0" layoutY="183.0" prefHeight="47.0" prefWidth="211.0" text="Loc rezervat cu succes!">
+                        <Button fx:id="vreauButton" layoutX="97.0" layoutY="263.0" mnemonicParsing="false" onAction="#vreauLoc" prefHeight="74.0" prefWidth="211.0" text="Vreau loc de parcare" />
+                        <Label fx:id="mesajLabel" alignment="CENTER" layoutX="97.0" layoutY="200.0" prefHeight="47.0" prefWidth="211.0" text="Loc rezervat cu succes!" textAlignment="CENTER">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -44,23 +44,33 @@
                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                      </opaqueInsets>
                   </AnchorPane>
+                  <Button fx:id="CLoseMenuParcareButton" layoutX="848.0" layoutY="197.0" mnemonicParsing="false" onAction="#changeTab" prefHeight="54.0" prefWidth="127.0" text="Close" />
                </children></AnchorPane>
       </content>
     </Tab>
-    <Tab fx:id="RezTab" closable="false" text="Profile">
+    <Tab fx:id="RezTab" closable="false" onSelectionChanged="#changeTab" text="Profile">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <ListView fx:id="listView" layoutX="58.0" layoutY="411.0" prefHeight="216.0" prefWidth="780.0" />
-                  <Button layoutX="856.0" layoutY="562.0" mnemonicParsing="false" onAction="#deleteList" prefHeight="54.0" prefWidth="127.0" text="Delete List" />
-                  <TextField fx:id="numeField" layoutX="206.0" layoutY="76.0" />
-                  <TextField fx:id="masinaField" layoutX="200.0" layoutY="135.0" />
-                  <TextField fx:id="telefonField" layoutX="203.0" layoutY="207.0" />
-                  <Label layoutX="52.0" layoutY="79.0" text="Nume:" />
-                  <Label layoutX="52.0" layoutY="140.0" text="Numar de inmatriculare:" />
-                  <Label layoutX="52.0" layoutY="211.0" text="Numar de telefon:" />
-                  <Button layoutX="55.0" layoutY="270.0" mnemonicParsing="false" onAction="#editProfile" prefHeight="72.0" prefWidth="95.0" text="Edit Profile" />
-                  <Button fx:id="saveButton" layoutX="202.0" layoutY="278.0" mnemonicParsing="false" onAction="#saveProfile" prefHeight="64.0" prefWidth="124.0" text="Save Changes" />
+                  <ListView fx:id="listView" layoutX="52.0" layoutY="360.0" prefHeight="267.0" prefWidth="935.0" />
+                  <Button alignment="CENTER" layoutX="365.0" layoutY="271.0" mnemonicParsing="false" onAction="#deleteList" prefHeight="72.0" prefWidth="127.0" text="Free All Rezervations" textAlignment="CENTER" wrapText="true" />
+                  <TextField fx:id="numeField" layoutX="103.0" layoutY="76.0" />
+                  <TextField fx:id="masinaField" layoutX="206.0" layoutY="137.0" />
+                  <TextField fx:id="telefonField" layoutX="168.0" layoutY="208.0" />
+                  <Label layoutX="52.0" layoutY="79.0" prefHeight="20.0" prefWidth="45.0" text="Nume:">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label layoutX="52.0" layoutY="140.0" prefHeight="20.0" prefWidth="155.0" text="Numar de inmatriculare:">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label layoutX="52.0" layoutY="211.0" prefHeight="20.0" prefWidth="116.0" text="Numar de telefon:">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Button layoutX="52.0" layoutY="270.0" mnemonicParsing="false" onAction="#editProfile" prefHeight="72.0" prefWidth="95.0" text="Edit Profile" />
+                  <Button fx:id="saveButton" layoutX="202.0" layoutY="271.0" mnemonicParsing="false" onAction="#saveProfile" prefHeight="72.0" prefWidth="105.0" text="Save Changes" />
                </children></AnchorPane>
       </content>
     </Tab>

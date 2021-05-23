@@ -12,10 +12,8 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 
 public class PrimaryController implements Initializable {
 
@@ -33,7 +31,7 @@ public class PrimaryController implements Initializable {
     private TextField numeField, masinaField, telefonField;
 
     @FXML
-    private Button saveButton,vreauButton;
+    private Button saveButton,vreauButton,CLoseMenuParcareButton;
 
     @FXML
     private AnchorPane menuParcare;
@@ -43,11 +41,6 @@ public class PrimaryController implements Initializable {
 
     @FXML
     private ListView listView;
-
-    @FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
-    }
 
     private ContextMenu menuLista;
 
@@ -63,13 +56,10 @@ public class PrimaryController implements Initializable {
         engine  = webView.getEngine();
         engine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
             if (Worker.State.SUCCEEDED == newValue) {
-                // set an interface object named 'javaConnector' in the web engine's page
                 JSObject javascriptConnector = (JSObject) engine.executeScript("getJsConnector()");
                 javaConnector = new JavaConnector(javascriptConnector);
                 JSObject window = (JSObject) engine.executeScript("window");
                 window.setMember("javaConnector", javaConnector);
-
-                // get the Javascript connector object.
             }
         });
 
@@ -82,6 +72,7 @@ public class PrimaryController implements Initializable {
                 int index = listView.getSelectionModel().getSelectedIndex();
                 userInfo.getListaRezervari().remove(index);
                 listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
+                updateNumarLocuri(parcareInfo.getNumarLocuri() + 1);
             }
         });
 
@@ -100,6 +91,11 @@ public class PrimaryController implements Initializable {
         displayMenuParcare(false);
     }
 
+    public void updateNumarLocuri(int nr) {
+        parcareInfo.setNumarLocuri(nr);
+        numarLocuriLabel.setText("Numar de locuri libere: " + parcareInfo.getNumarLocuri());
+    }
+
     public void loadMap(String url) {
         engine.load(url);
     }
@@ -114,6 +110,7 @@ public class PrimaryController implements Initializable {
     }
 
     public void displayMenuParcare(boolean dis) {
+        CLoseMenuParcareButton.setDisable(!dis);
         menuParcare.setDisable(!dis);
         menuParcare.setVisible(dis);
         mesajLabel.setVisible(!dis);
@@ -137,8 +134,7 @@ public class PrimaryController implements Initializable {
     public void makeRezervation() throws RezervationException {
         if(userInfo.invalid())
             throw new RezervationException();
-        parcareInfo.setNumarLocuri(parcareInfo.getNumarLocuri() - 1);
-        numarLocuriLabel.setText("Numar de locuri libere: " + parcareInfo.getNumarLocuri());
+        updateNumarLocuri(parcareInfo.getNumarLocuri() - 1);
         if(parcareInfo.getNumarLocuri() <= 0)
             vreauButton.setDisable(true);
 
@@ -175,9 +171,14 @@ public class PrimaryController implements Initializable {
     }
 
     public void deleteList() {
+        updateNumarLocuri(parcareInfo.getNumarLocuri() + listView.getItems().size());
         listView.getItems().clear();
     }
 
+    @FXML
+    public void changeTab() {
+        displayMenuParcare(false);
+    }
 }
 
 
