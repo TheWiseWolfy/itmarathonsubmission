@@ -5,8 +5,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaParcari
-{
+public class ListaParcari {
+
     private Connection conn;
 
     public ListaParcari(Connection c) {
@@ -82,7 +82,6 @@ public class ListaParcari
                 System.out.println(e.toString());
             }
         }
-
         return parcari;
     }
 

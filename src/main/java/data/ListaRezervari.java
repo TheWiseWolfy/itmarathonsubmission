@@ -31,7 +31,6 @@ public class ListaRezervari
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-
         System.out.println("All Users");
         try
         {
