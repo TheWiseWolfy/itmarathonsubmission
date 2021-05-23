@@ -16,7 +16,7 @@ public class JavaScriptCommunication {
                 // set an interface object named 'javaConnector' in the web engine's page
                 JSObject javascriptConnector = (JSObject) engine.executeScript("getJsConnector()");
 
-                javaConnector = new JavaConnector(javascriptConnector);
+               // javaConnector = new JavaConnector(javascriptConnector);
                 JSObject window = (JSObject) engine.executeScript("window");
                 window.setMember("javaConnector", javaConnector);
             }

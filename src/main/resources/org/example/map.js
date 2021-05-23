@@ -1,10 +1,7 @@
 let map;
 
 var markers = [
-    {  
-        coords: { lat:  47.17, lng: 27.57 },
-        id: 57
-    }
+   // {  coords: { lat:  47.17, lng: 27.57 }, id: 57 }
 ];
 
 function initMap() {
@@ -36,7 +33,6 @@ function initMap() {
 
 
 function addMarker(props, map){
-
     var marker = new google.maps.Marker({
     position: props.coords,
     map:map
@@ -50,13 +46,14 @@ function addMarker(props, map){
 
 
 function addAllMarkers( markers, map ){
+
     for ( var i = 0; i < markers.length; i++ ){
         addMarker( markers[i], map );
     }
+
 }
 
 function displayMarkers(){
-  
    addAllMarkers(markers, map);
 }
 
@@ -76,9 +73,21 @@ function sendToJava () {
     javaConnector.toLowerCase(s);
 };
 
+
+//This object is used in Java
 var jsConnector = {
     showResult: function (result) {
         document.getElementById('result').innerHTML = result;
+    },
+    addMarkerToArray: function( _lat, _lng, _id){
+        markers.push(
+            {  
+                coords: { lat:  _lat, lng: _lng },
+                id: _id
+            });
+    },
+    updateMarkers: function(){
+        displayMarkers();
     }
 };
 

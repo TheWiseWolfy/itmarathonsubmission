@@ -42,6 +42,7 @@ public class PrimaryController implements Initializable {
     @FXML
     private ListView listView;
 
+
     private ContextMenu menuLista;
 
     private JavaConnector javaConnector = null;
@@ -57,7 +58,12 @@ public class PrimaryController implements Initializable {
         engine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
             if (Worker.State.SUCCEEDED == newValue) {
                 JSObject javascriptConnector = (JSObject) engine.executeScript("getJsConnector()");
-                javaConnector = new JavaConnector(javascriptConnector);
+                mapInfo = new MapInfo(database.getListaParcari().readAllData());
+                javaConnector = new JavaConnector(javascriptConnector, mapInfo);
+                for(Parcare p : mapInfo.getLista())
+                {
+                    javaConnector.addMarker(p.getLat(),p.getLng(),p.getID());
+                }
                 JSObject window = (JSObject) engine.executeScript("window");
                 window.setMember("javaConnector", javaConnector);
             }

@@ -11,9 +11,11 @@ public class JavaConnector {
      */
 
     private JSObject javascriptConnector = null;
+    MapInfo mapInfo;
 
-    public JavaConnector(JSObject js) {
+    public JavaConnector(JSObject js, MapInfo mapInfo) {
         javascriptConnector = js;
+        this.mapInfo = mapInfo;
     }
 
     public void toLowerCase(String value) {
@@ -24,6 +26,15 @@ public class JavaConnector {
 
     public void receiveID(int id) {
         System.out.println(id);
+        mapInfo.setCurrentId( id);
+    }
+
+    public  void addMarker(float lat, float lng, int id){
+        javascriptConnector.call("addMarkerToArray", lat,lng, id);
+    }
+
+    public  void displayMarkers(){
+        javascriptConnector.call("updateMarkers");
     }
 }
 

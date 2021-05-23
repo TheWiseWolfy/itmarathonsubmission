@@ -26,24 +26,9 @@ public class App extends Application {
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
-
-        ListaRezervari.insert("BC 07 ASD", "0712345678", "John", 42069);
-        // ListaRezervari.readAllData(); // print all data
-        // ListaRezervari.remove_data(42069); // sterge user dupa id
-        ListaRezervari.change_data(42069, "nume", "aa a");
-        ListaRezervari.remove_data(42069);
-
-        ListaParcari.insert(512, -450, 12, 2, "This Parcare", 4512);
-        ListaParcari.readAllData();
-        ListaParcari.change_data(512, -450, 35);
-
-
-
     }
 
-
-    static void setRoot(String fxml) throws IOException
-    {
+    static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
@@ -56,7 +41,4 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
-
-
-
 }
