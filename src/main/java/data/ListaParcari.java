@@ -75,7 +75,6 @@ public class ListaParcari
             {
                 rs.close();
                 ps.close();
-                conn.close();
             }
             catch (SQLException e)
             {

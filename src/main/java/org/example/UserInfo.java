@@ -1,5 +1,7 @@
 package org.example;
 
+import data.RezervationClass;
+
 import java.util.ArrayList;
 
 public class UserInfo {

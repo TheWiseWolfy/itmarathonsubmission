@@ -14,6 +14,7 @@ import netscape.javascript.JSObject;
 import data.*;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class PrimaryController implements Initializable {
@@ -76,6 +77,11 @@ public class PrimaryController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 int index = listView.getSelectionModel().getSelectedIndex();
+                try {
+                    database.getListaRezervari().delete(userInfo.getListaRezervari().get(index).getId());
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
                 userInfo.getListaRezervari().remove(index);
                 listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
                 updateNumarLocuri(mapInfo.getCurrentPin().getLocuriLibere() + 1);
@@ -95,6 +101,18 @@ public class PrimaryController implements Initializable {
         loadMap(this.getClass().getResource( "index.html" ).toString());
         changeProfile(false);
         displayMenuParcare(false);
+        loadData();
+    }
+
+    public void loadData() {
+        for(RezervationClass r : database.getListaRezervari().readAllData()) {
+            /*updateNumarLocuri(mapInfo.getCurrentPin().getLocuriLibere() - 1);
+            if(mapInfo.getCurrentPin().getLocuriLibere() <= 0)
+                vreauButton.setDisable(true);*/
+
+            userInfo.getListaRezervari().add(r);
+            listView.getItems().add(r.getNumeParcare() + " | " + "Masina: " + r.getMasina());
+        }
     }
 
     public void updateNumarLocuri(int nr) {
@@ -147,7 +165,7 @@ public class PrimaryController implements Initializable {
         telefonField.setEditable(edit);
     }
 
-    public void makeRezervation() throws RezervationException, InmatriculareException {
+    public void makeRezervation() throws RezervationException, InmatriculareException, SQLException {
         if(userInfo.invalid())
             throw new RezervationException();
         if(masinaField.getText().equals("Numar de Inmatriculare") || masinaField.getText().equals(""))
@@ -156,8 +174,9 @@ public class PrimaryController implements Initializable {
         if(mapInfo.getCurrentPin().getLocuriLibere() <= 0)
             vreauButton.setDisable(true);
 
-        RezervationClass rezervare = new RezervationClass(numeParcareLabel.getText(), masinaField.getText());
+        RezervationClass rezervare = new RezervationClass(numeParcareLabel.getText(), masinaField.getText(),RezervationClass.getLastId() + 1);
         userInfo.getListaRezervari().add(rezervare);
+        database.getListaRezervari().insert(rezervare.getNumeParcare(), rezervare.getMasina(), RezervationClass.getLastId() + 1);
 
 
         listView.getItems().add(numeParcareLabel.getText() + " | " + "Masina: " + masinaField.getText());
@@ -177,6 +196,8 @@ public class PrimaryController implements Initializable {
         } catch (InmatriculareException e) {
             Alert emptyProfile = new Alert(Alert.AlertType.ERROR,"Please enter your license plate!");
             emptyProfile.show();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -193,6 +214,14 @@ public class PrimaryController implements Initializable {
     public void deleteList() {
         updateNumarLocuri(mapInfo.getCurrentPin().getLocuriLibere() + listView.getItems().size());
         listView.getItems().clear();
+        for(RezervationClass r : userInfo.getListaRezervari()) {
+            try {
+                database.getListaRezervari().delete(r.getId());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        userInfo.getListaRezervari().clear();
     }
 
     @FXML
