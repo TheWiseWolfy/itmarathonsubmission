@@ -7,28 +7,14 @@ import java.util.List;
 
 public class ListaParcari
 {
-    public static Connection connect()
-    {
-        Connection conn = null;
-        //System.out.println("connected to db");
+    private Connection conn;
 
-        try
-        {
-            Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:BazaDeDate.db");
-        }
-        catch (SQLException | ClassNotFoundException throwables)
-        {
-            throwables.printStackTrace();
-            System.exit(1);
-        }
-
-        return conn;
+    public ListaParcari(Connection c) {
+        conn = c;
     }
 
-    public static void insert(int x, int y, int locuri_libere, int tarif, String nume_parcare, int id_parcare) throws SQLException
+    public void insert(int x, int y, int locuri_libere, int tarif, String nume_parcare, int id_parcare) throws SQLException
     {
-        Connection conn = ListaRezervari.connect();
         PreparedStatement ps = null;
 
         String sql = "INSERT INTO ParkingLots(x, y, locuri_libere, tarif, nume_parcare, id_parcare) VALUES(?,?,?,?,?,?) ";
@@ -44,11 +30,10 @@ public class ListaParcari
         System.out.println("Data has been inserted!");
     }
 
-    public static List<Parcare> readAllData()
+    public List<Parcare> readAllData()
     {
         List<Parcare> parcari = new ArrayList<Parcare>();
 
-        Connection conn = ListaParcari.connect();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -60,8 +45,8 @@ public class ListaParcari
             rs = ps.executeQuery();
             while(rs.next())
             {
-                int x = rs.getInt("x");
-                int y = rs.getInt("y");
+                float x = rs.getFloat("x");
+                float y = rs.getFloat("y");
                 int locuri_libere = rs.getInt("locuri_libere");
                 int tarif = rs.getInt("tarif");
                 String nume_parcare = rs.getString("nume_parcare");
@@ -101,12 +86,11 @@ public class ListaParcari
         return parcari;
     }
 
-    public static void change_data(int x, int y, int de_modificat) throws IOException, SQLException
+    public void change_data(int id, int de_modificat) throws IOException, SQLException
     {
-        Connection conn = ListaRezervari.connect();
         PreparedStatement ps = null;
 
-        String sql = "UPDATE ParkingLots SET locuri_libere = " + de_modificat + " WHERE x = " + x + " AND y = " + y;
+        String sql = "UPDATE ParkingLots SET locuri_libere = " + de_modificat + " WHERE id_parcare = " + id;
         ps = conn.prepareStatement(sql);
         ps.executeUpdate();
     }

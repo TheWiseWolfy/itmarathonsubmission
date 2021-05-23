@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
+import data.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,6 +21,7 @@ public class PrimaryController implements Initializable {
     private MapInfo mapInfo;
     private ParcareInfo parcareInfo;
     private UserInfo userInfo;
+    private SQLite database;
 
     @FXML
     private WebView webView;
@@ -49,11 +51,10 @@ public class PrimaryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        mapInfo = new MapInfo();
         parcareInfo = new ParcareInfo();
         userInfo = new UserInfo();
+        database = new SQLite();
 
-        webView.setZoom(mapInfo.getZoom());
         engine  = webView.getEngine();
         engine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
             if (Worker.State.SUCCEEDED == newValue) {
@@ -66,6 +67,7 @@ public class PrimaryController implements Initializable {
                 }
                 JSObject window = (JSObject) engine.executeScript("window");
                 window.setMember("javaConnector", javaConnector);
+
             }
         });
 
@@ -111,8 +113,7 @@ public class PrimaryController implements Initializable {
     }
 
     public void center() {
-        mapInfo.setZoom(1);
-        webView.setZoom(mapInfo.getZoom());
+        webView.setZoom(1);
     }
 
     public void displayMenuParcare(boolean dis) {
@@ -123,7 +124,14 @@ public class PrimaryController implements Initializable {
         if(dis) {
             if(parcareInfo.getNumarLocuri() <= 0)
                 vreauButton.setDisable(true);
+            Parcare parcare = mapInfo.getCurrentPin();
+            updateParcare(parcare);
         }
+    }
+
+    public void updateParcare(Parcare parcare) {
+        numeParcareLabel.setText("Nume: " + parcare.getNume());
+        numarLocuriLabel.setText("Numar locuri libere: " + parcare.getLocuriLibere());
     }
 
     public void pinClick() {

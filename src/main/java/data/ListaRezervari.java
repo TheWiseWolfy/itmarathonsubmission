@@ -5,28 +5,14 @@ import java.sql.*;
 
 public class ListaRezervari
 {
-    public static Connection connect()
-    {
-        Connection conn = null;
-        //System.out.println("connected to db");
+    private Connection conn;
 
-        try
-        {
-            Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:BazaDeDate.db");
-        }
-        catch (SQLException | ClassNotFoundException throwables)
-        {
-            throwables.printStackTrace();
-            System.exit(1);
-        }
-
-        return conn;
+    public ListaRezervari(Connection c) {
+        conn = c;
     }
 
-    public static void insert(String numar_inmatriculare, String numar_telefon, String nume, int id_user) throws SQLException
+    public void insert(String numar_inmatriculare, String numar_telefon, String nume, int id_user) throws SQLException
     {
-        Connection conn = ListaRezervari.connect();
         PreparedStatement ps = null;
 
         String sql = "INSERT INTO users(numar_inmatriculare, numar_telefon, nume, id_user) VALUES(?,?,?,?) ";
@@ -40,9 +26,8 @@ public class ListaRezervari
         System.out.println("Data has been inserted!");
     }
 
-    public static void readAllData()
+    public void readAllData()
     {
-        Connection conn = ListaRezervari.connect();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -85,9 +70,8 @@ public class ListaRezervari
         }
     }
 
-    public static void remove_data(int id_user) throws IOException, SQLException
+    public void remove_data(int id_user) throws IOException, SQLException
     {
-        Connection conn = ListaRezervari.connect();
         PreparedStatement ps = null;
 
         String sql = "DELETE FROM Users WHERE id_user = " + id_user;
@@ -95,9 +79,8 @@ public class ListaRezervari
         ps.execute();
     }
 
-    public static void change_data(int id_user, String coloana, String de_modificat) throws IOException, SQLException
+    public void change_data(int id_user, String coloana, String de_modificat) throws IOException, SQLException
     {
-        Connection conn = ListaRezervari.connect();
         PreparedStatement ps = null;
 
 
