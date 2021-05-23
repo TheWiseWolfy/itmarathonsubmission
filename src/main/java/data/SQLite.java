@@ -9,7 +9,7 @@ public class SQLite {
 
     private Connection conn = null;
     private ListaParcari listaParcari;
-    private ListaRezervari listaRezervari;
+    private Rezervari listaRezervari;
 
      public SQLite() {
         try
@@ -22,14 +22,14 @@ public class SQLite {
             System.exit(1);
         }
          listaParcari = new ListaParcari(conn);
-        listaRezervari = new ListaRezervari(conn);
+         listaRezervari = new Rezervari(conn);
     }
 
     public ListaParcari getListaParcari() {
          return listaParcari;
     }
 
-    public ListaRezervari getListaRezervari() {
+    public Rezervari getListaRezervari() {
         return listaRezervari;
     }
 

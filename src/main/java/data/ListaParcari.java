@@ -5,8 +5,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaParcari {
-
+public class ListaParcari
+{
     private Connection conn;
 
     public ListaParcari(Connection c) {
@@ -38,7 +38,6 @@ public class ListaParcari {
         ResultSet rs = null;
 
         System.out.println("All Parking Lots");
-
         try
         {
             String sql = "SELECT * FROM ParkingLots";
@@ -54,6 +53,8 @@ public class ListaParcari {
                 int id_parcare = rs.getInt("id_parcare");
 
                 parcari.add(new Parcare(x, y, locuri_libere, tarif, nume_parcare, id_parcare));
+
+
                 /*
                 System.out.println("x: " + x);
                 System.out.println("y: " + y);
@@ -64,19 +65,23 @@ public class ListaParcari {
                 */
             }
         }
-        catch(SQLException e) {
+        catch(SQLException e)
+        {
             System.out.println(e.toString());
         }
-        finally {
-            try {
-                if(rs != null) { rs.close(); }
-                if(ps != null) {  ps.close();}
-                if(conn != null) {    conn.close();}
+        finally
+        {
+            try
+            {
+                rs.close();
+                ps.close();
             }
-            catch (SQLException e) {
+            catch (SQLException e)
+            {
                 System.out.println(e.toString());
             }
         }
+
         return parcari;
     }
 

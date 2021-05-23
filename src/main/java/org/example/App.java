@@ -1,8 +1,5 @@
 package org.example;
 
-import data.ListaParcari;
-import data.ListaRezervari;
-import data.Parcari;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
