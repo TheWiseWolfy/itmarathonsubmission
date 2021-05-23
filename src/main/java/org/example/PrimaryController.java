@@ -1,9 +1,11 @@
 package org.example;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -13,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import netscape.javascript.JSObject;
 
 
 public class PrimaryController implements Initializable {
@@ -46,12 +49,26 @@ public class PrimaryController implements Initializable {
         App.setRoot("secondary");
     }
 
+    private JavaConnector javaConnector = null;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         mapInfo = new MapInfo();
         parcareInfo = new ParcareInfo();
         webView.setZoom(mapInfo.getZoom());
         engine  = webView.getEngine();
+        engine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+            if (Worker.State.SUCCEEDED == newValue) {
+                // set an interface object named 'javaConnector' in the web engine's page
+                JSObject javascriptConnector = (JSObject) engine.executeScript("getJsConnector()");
+                javaConnector = new JavaConnector(javascriptConnector);
+                JSObject window = (JSObject) engine.executeScript("window");
+                window.setMember("javaConnector", javaConnector);
+
+                // get the Javascript connector object.
+            }
+        });
+
         loadMap(this.getClass().getResource( "index.html" ).toString());
         changeProfile(false);
         menuParcare.setDisable(true);
@@ -110,3 +127,5 @@ public class PrimaryController implements Initializable {
     }
 
 }
+
+

@@ -24,7 +24,7 @@ public class WebViewApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL url = new File("C:\\Users\\Lucian\\Desktop\\Projects\\Git\\itmarathonsubmission\\src\\main\\resources\\org\\example\\test.html").toURI().toURL();
+        URL url = new File("/resources/org/example/test.html").toURI().toURL();
 
         WebView webView = new WebView();
         final WebEngine webEngine = webView.getEngine();
