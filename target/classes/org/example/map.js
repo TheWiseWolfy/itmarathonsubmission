@@ -1,17 +1,25 @@
 let map;
 
+var markers = [
+    {  
+        coords: { lat:  47.17, lng: 27.57 },
+        id: 57
+    }
+];
+
 function initMap() {
 
     var options = {
          zoom: 12,
          center: { lat:  47.17, lng: 27.57 }
     }
+
     map = new google.maps.Map(document.getElementById("map"),options);
 
     //Listen for click on map
     google.maps.event.addListener( map , 'click', 
-    function(event){
-    // addMarker({});
+         function(event){
+           
     });
 
     var infoWindow = new google.maps.InfoWindow({
@@ -20,31 +28,60 @@ function initMap() {
 
     //Array of markers 
 
-    var markers = [
-        {   
-            coords: { lat:  47.17, lng: 27.57 } 
-        }
-    ];
-
     //Loop through markers
-    for ( var i = 0; i < markers.length; i++ ){
-        addMarker( markers[i] );
-    }
 
-
-    function addMarker(props){
-        var marker = new google.maps.Marker({
-        position: props.coords,
-        map:map
-        });
-
-        marker.addListener ('click', function(){
-            infoWindow.open(map,marker);
-        });
-
-
-    }
-
+   //addAllMarkers(markers, map );
     //Java script experiments
 }
 
+
+function addMarker(props, map){
+
+    var marker = new google.maps.Marker({
+    position: props.coords,
+    map:map
+    });
+
+    marker.addListener ('click', function(){
+        sendIDToJava(props.id)
+        infoWindow.open(map,marker);
+    });
+}
+
+
+function addAllMarkers( markers, map ){
+    for ( var i = 0; i < markers.length; i++ ){
+        addMarker( markers[i], map );
+    }
+}
+
+function displayMarkers(){
+  
+   addAllMarkers(markers, map);
+}
+
+//Sa primesc markerele
+
+//Sa returnez in java markerul selectat
+
+//TEST
+function sendIDToJava (id) {
+    javaConnector.receiveID(id);
+};
+
+
+//TEST
+function sendToJava () {
+    var s = document.getElementById('input').value;
+    javaConnector.toLowerCase(s);
+};
+
+var jsConnector = {
+    showResult: function (result) {
+        document.getElementById('result').innerHTML = result;
+    }
+};
+
+function getJsConnector() {
+    return jsConnector;
+};

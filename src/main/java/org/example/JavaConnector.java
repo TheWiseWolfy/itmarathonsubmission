@@ -21,5 +21,9 @@ public class JavaConnector {
             javascriptConnector.call("showResult", value.toLowerCase());
         }
     }
+
+    public void receiveID(int id) {
+        System.out.println(id);
+    }
 }
 

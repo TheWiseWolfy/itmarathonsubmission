@@ -28,32 +28,17 @@
 </head>
 <body>
 
-        <div><input id="input" type="text"></div>
-        <button onclick="sendToJava();">to lower case</button>
-        <div id="result"></div>
+<div><input id="input" type="text"></div>
 
-        <script type="text/javascript">
-            function sendToJava () {
-                var s = document.getElementById('input').value;
-                javaConnector.toLowerCase(s);
-            };
+<button onclick=" displayMarkers() ">display markers</button>
+<button onclick=" sendToJava(); ">to lower case</button>
 
-            var jsConnector = {
-                showResult: function (result) {
-                    document.getElementById('result').innerHTML = result;
-                }
-            };
-
-            function getJsConnector() {
-                return jsConnector;
-            };
-        </script>
+<div id="result"></div>
 
 <div id="map"></div>
 
 <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1GOhtiWJZoPQ3yml6iqhgloConMLiwGI&callback=initMap">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1GOhtiWJZoPQ3yml6iqhgloConMLiwGI&callback=initMap">
       async
     </script>
 </body>
