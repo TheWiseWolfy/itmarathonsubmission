@@ -179,6 +179,13 @@ public class PrimaryController implements Initializable {
     public void changeTab() {
         displayMenuParcare(false);
     }
+
+    @FXML
+    private void printeazaChestie()
+    {
+        System.out.println("sall");
+    }
+
 }
 
 
