@@ -1,15 +1,12 @@
 package data;
 
-import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SQLite {
 
     private Connection conn = null;
     private ListaParcari listaParcari;
-    private ListaRezervari listaRezervari;
+    private ListaUsers listaUsers;
 
      public SQLite() {
         try
@@ -21,16 +18,16 @@ public class SQLite {
             e.printStackTrace();
             System.exit(1);
         }
-         listaParcari = new ListaParcari(conn);
-        listaRezervari = new ListaRezervari(conn);
+        listaParcari = new ListaParcari(conn);
+        listaUsers = new ListaUsers(conn);
     }
 
     public ListaParcari getListaParcari() {
          return listaParcari;
     }
 
-    public ListaRezervari getListaRezervari() {
-        return listaRezervari;
+    public ListaUsers getListaRezervari() {
+        return listaUsers;
     }
 
 }
