@@ -1,5 +1,8 @@
 package org.example;
 
+import data.ListaParcari;
+import data.ListaRezervari;
+import data.Parcari;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 
 /**
  * JavaFX App
@@ -16,15 +21,32 @@ public class App extends Application {
     private static Scene scene;
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException, SQLException
+    {
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
+
+        ListaRezervari.insert("BC 07 ASD", "0712345678", "John", 42069);
+        // ListaRezervari.readAllData(); // print all data
+        // ListaRezervari.remove_data(42069); // sterge user dupa id
+        ListaRezervari.change_data(42069, "nume", "aa a");
+        ListaRezervari.remove_data(42069);
+
+        ListaParcari.insert(512, -450, 12, 2, "This Parcare", 4512);
+        ListaParcari.readAllData();
+        ListaParcari.change_data(512, -450, 35);
+
+
+
     }
 
-    static void setRoot(String fxml) throws IOException {
+
+    static void setRoot(String fxml) throws IOException
+    {
         scene.setRoot(loadFXML(fxml));
     }
+
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
@@ -34,5 +56,7 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+
 
 }
