@@ -19,25 +19,33 @@
                <children>
                   <WebView fx:id="webView" layoutX="5.0" layoutY="3.0" prefHeight="684.0" prefWidth="820.0" />
                   <Button layoutX="848.0" layoutY="106.0" mnemonicParsing="false" onAction="#refresh" prefHeight="54.0" prefWidth="127.0" text="Refresh" />
-                  <Button layoutX="849.0" layoutY="421.0" mnemonicParsing="false" onAction="#pinClick" prefHeight="157.0" prefWidth="136.0" text="TestClickPePin" />
+                  <Button layoutX="849.0" layoutY="421.0" mnemonicParsing="false" onAction="#pinClick" prefHeight="157.0" prefWidth="156.0" text="Rezerva Loc de Parcare" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="17.0" />
+                     </font></Button>
                   <AnchorPane fx:id="menuParcare" layoutX="203.0" layoutY="133.0" prefHeight="387.0" prefWidth="424.0" style="-fx-background-color: #dedede;">
                      <children>
-                        <Label fx:id="numeParcareLabel" alignment="CENTER" layoutX="18.0" layoutY="13.0" prefHeight="76.0" prefWidth="383.0" text="Parcarea: Nume interesant de parcare" textAlignment="CENTER" wrapText="true">
+                        <Label fx:id="numeParcareLabel" alignment="CENTER" layoutX="20.0" layoutY="14.0" prefHeight="76.0" prefWidth="383.0" text="Parcarea: Nume interesant de parcare" textAlignment="CENTER" wrapText="true">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="numarLocuriLabel" alignment="CENTER" layoutX="109.0" layoutY="79.0" prefHeight="79.0" prefWidth="205.0" text="Numar de locuri libere: 7" textAlignment="CENTER" wrapText="true">
+                        <Label fx:id="numarLocuriLabel" alignment="CENTER" layoutX="108.0" layoutY="90.0" prefHeight="57.0" prefWidth="205.0" text="Numar de locuri libere: 7" textAlignment="CENTER" wrapText="true">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Label>
-                        <Button fx:id="vreauButton" layoutX="97.0" layoutY="263.0" mnemonicParsing="false" onAction="#vreauLoc" prefHeight="74.0" prefWidth="211.0" text="Vreau loc de parcare" />
-                        <Label fx:id="mesajLabel" alignment="CENTER" layoutX="97.0" layoutY="200.0" prefHeight="47.0" prefWidth="211.0" text="Loc rezervat cu succes!" textAlignment="CENTER">
+                        <Button fx:id="vreauButton" layoutX="106.0" layoutY="264.0" mnemonicParsing="false" onAction="#vreauLoc" prefHeight="74.0" prefWidth="211.0" text="Vreau loc de parcare" />
+                        <Label fx:id="mesajLabel" alignment="CENTER" layoutX="106.0" layoutY="205.0" prefHeight="47.0" prefWidth="211.0" text="Loc rezervat cu succes!" textAlignment="CENTER">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
+                        <TextField fx:id="masinaField" alignment="CENTER" layoutX="55.0" layoutY="147.0" prefHeight="51.0" prefWidth="311.0" text="Numar de Inmatriculare">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </TextField>
                      </children>
                      <opaqueInsets>
                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
@@ -54,17 +62,12 @@
                   <ListView fx:id="listView" layoutX="52.0" layoutY="360.0" prefHeight="267.0" prefWidth="935.0" />
                   <Button alignment="CENTER" layoutX="365.0" layoutY="271.0" mnemonicParsing="false" onAction="#deleteList" prefHeight="72.0" prefWidth="127.0" text="Free All Rezervations" textAlignment="CENTER" wrapText="true" />
                   <TextField fx:id="numeField" layoutX="103.0" layoutY="76.0" />
-                  <TextField fx:id="masinaField" layoutX="206.0" layoutY="137.0" />
-                  <TextField fx:id="telefonField" layoutX="168.0" layoutY="208.0" />
+                  <TextField fx:id="telefonField" layoutX="178.0" layoutY="143.0" />
                   <Label layoutX="52.0" layoutY="79.0" prefHeight="20.0" prefWidth="45.0" text="Nume:">
                      <font>
                         <Font size="14.0" />
                      </font></Label>
-                  <Label layoutX="52.0" layoutY="140.0" prefHeight="20.0" prefWidth="155.0" text="Numar de inmatriculare:">
-                     <font>
-                        <Font size="14.0" />
-                     </font></Label>
-                  <Label layoutX="52.0" layoutY="211.0" prefHeight="20.0" prefWidth="116.0" text="Numar de telefon:">
+                  <Label layoutX="52.0" layoutY="146.0" prefHeight="20.0" prefWidth="116.0" text="Numar de telefon:">
                      <font>
                         <Font size="14.0" />
                      </font></Label>

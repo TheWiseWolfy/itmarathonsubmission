@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class UserInfo {
 
     private String name;
-    private String car;
     private String tel;
     private ArrayList<RezervationClass> listaRezervari = new ArrayList<>();
     private int index;
@@ -13,7 +12,6 @@ public class UserInfo {
 
     public UserInfo() {
         name = "";
-        car = "";
         tel = "";
         index = count++;
     }
@@ -23,7 +21,7 @@ public class UserInfo {
     }
 
     public boolean invalid() {
-        return car.equals("") || tel.equals("") || name.equals("");
+        return tel.equals("") || name.equals("");
     }
 
     public String getName() {
@@ -32,14 +30,6 @@ public class UserInfo {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getCar() {
-        return car;
-    }
-
-    public void setCar(String car) {
-        this.car = car;
     }
 
     public String getTel() {
