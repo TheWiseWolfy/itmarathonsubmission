@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
@@ -35,7 +36,10 @@ public class PrimaryController implements Initializable {
     private AnchorPane menuParcare;
 
     @FXML
-    private Label numeParcareLabel, numarLocuriLabel;
+    private Label numeParcareLabel, numarLocuriLabel, mesajLabel;
+
+    @FXML
+    private ListView listView;
 
     @FXML
     private void switchToSecondary() throws IOException {
@@ -45,11 +49,15 @@ public class PrimaryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         mapInfo = new MapInfo();
+        parcareInfo = new ParcareInfo();
         webView.setZoom(mapInfo.getZoom());
         engine  = webView.getEngine();
         loadMap("http://www.google.com");
         changeProfile(false);
-
+        menuParcare.setDisable(true);
+        menuParcare.setVisible(false);
+        if(parcareInfo.getNumarLocuri() <= 0)
+            vreauButton.setDisable(true);
     }
 
     public void loadMap(String url) {
@@ -60,23 +68,15 @@ public class PrimaryController implements Initializable {
         engine.reload();
     }
 
-    public void zoomIn() {
-        mapInfo.setZoom(mapInfo.getZoom() + 0.25f);
-        webView.setZoom(mapInfo.getZoom());
-    }
-
-    public void zoomOut() {
-        mapInfo.setZoom(mapInfo.getZoom() - 0.25f);
-        webView.setZoom(mapInfo.getZoom());
-    }
-
     public void center() {
         mapInfo.setZoom(1);
         webView.setZoom(mapInfo.getZoom());
     }
 
-    public void pinClick(int idParcare) {
-
+    public void pinClick() {
+        menuParcare.setDisable(false);
+        menuParcare.setVisible(true);
+        mesajLabel.setVisible(false);
     }
 
     public void changeProfile(boolean edit) {
@@ -86,12 +86,27 @@ public class PrimaryController implements Initializable {
         telefonField.setEditable(edit);
     }
 
+    public void vreauLoc() {
+        mesajLabel.setVisible(false);
+        parcareInfo.setNumarLocuri(parcareInfo.getNumarLocuri() - 1);
+        numarLocuriLabel.setText("Numar de locuri libere: " + parcareInfo.getNumarLocuri());
+        mesajLabel.setText("Succes!");
+        mesajLabel.setVisible(true);
+        if(parcareInfo.getNumarLocuri() <= 0)
+            vreauButton.setDisable(true);
+        listView.getItems().add(numeParcareLabel.getText());
+    }
+
     public void editProfile() {
         changeProfile(true);
     }
 
     public void saveProfile() {
         changeProfile(false);
+    }
+
+    public void deleteList() {
+        listView.getItems().clear();
     }
 
 }

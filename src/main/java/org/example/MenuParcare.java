@@ -1,3 +1,4 @@
+/*
 package org.example;
 
 import javafx.fxml.FXML;
@@ -7,3 +8,4 @@ public class MenuParcare {
     @FXML
     private Label numeParcareLabel, numarLocuriLabel;
 }
+*/
