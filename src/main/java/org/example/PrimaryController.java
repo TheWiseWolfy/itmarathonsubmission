@@ -52,22 +52,26 @@ public class PrimaryController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userInfo = new UserInfo();
         database = new SQLite();
-
         engine  = webView.getEngine();
+
+        //Here we catch the webpage and do important operations
         engine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
             if (Worker.State.SUCCEEDED == newValue) {
                 JSObject javascriptConnector = (JSObject) engine.executeScript("getJsConnector()");
                 mapInfo = new MapInfo(database.getListaParcari().readAllData());
+
                 javaConnector = new JavaConnector(javascriptConnector, mapInfo);
                 for(Parcare p : mapInfo.getLista())
                 {
                     javaConnector.addMarker(p.getLat(),p.getLng(),p.getID());
                 }
+                javaConnector.displayMarkers();
+
                 JSObject window = (JSObject) engine.executeScript("window");
                 window.setMember("javaConnector", javaConnector);
-
             }
         });
+
 
         menuLista = new ContextMenu();
         MenuItem deleteRezervation = new MenuItem("Free Rezervation");
@@ -110,9 +114,6 @@ public class PrimaryController implements Initializable {
         engine.reload();
     }
 
-    public void center() {
-        webView.setZoom(1);
-    }
 
     public void displayMenuParcare(boolean dis) {
         CLoseMenuParcareButton.setDisable(!dis);

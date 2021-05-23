@@ -25,7 +25,7 @@ public class JavaConnector {
     }
 
     public void receiveID(int id) {
-        System.out.println(id);
+        System.out.println("Current ID" + id);
         mapInfo.setCurrentId( id);
     }
 

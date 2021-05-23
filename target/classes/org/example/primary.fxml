@@ -17,31 +17,32 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <WebView fx:id="webView" layoutX="5.0" layoutY="3.0" prefHeight="684.0" prefWidth="820.0" />
-                  <Button layoutX="848.0" layoutY="106.0" mnemonicParsing="false" onAction="#refresh" prefHeight="54.0" prefWidth="127.0" text="Refresh" />
-                  <Button layoutX="849.0" layoutY="421.0" mnemonicParsing="false" onAction="#pinClick" prefHeight="157.0" prefWidth="156.0" text="Rezerva Loc de Parcare" textAlignment="CENTER" wrapText="true">
+                  <WebView fx:id="webView" layoutX="5.0" layoutY="3.0" prefHeight="684.0" prefWidth="820.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="204.0" AnchorPane.topAnchor="0.0" />
+                  <Button layoutX="848.0" layoutY="106.0" mnemonicParsing="false" onAction="#refresh" prefHeight="54.0" prefWidth="156.0" text="Refresh" AnchorPane.rightAnchor="20.0" />
+                  <Button layoutX="849.0" layoutY="421.0" mnemonicParsing="false" onAction="#pinClick" prefHeight="108.0" prefWidth="156.0" text="Rezerva Loc de Parcare" textAlignment="CENTER" wrapText="true" AnchorPane.rightAnchor="20.0">
                      <font>
                         <Font size="17.0" />
                      </font></Button>
                   <AnchorPane fx:id="menuParcare" layoutX="203.0" layoutY="133.0" prefHeight="387.0" prefWidth="424.0" style="-fx-background-color: #dedede;">
                      <children>
-                        <Label fx:id="numeParcareLabel" alignment="CENTER" layoutX="20.0" layoutY="14.0" prefHeight="76.0" prefWidth="383.0" text="Parcarea: Nume interesant de parcare" textAlignment="CENTER" wrapText="true">
+                        <Button fx:id="CLoseMenuParcareButton" layoutX="373.0" mnemonicParsing="false" onAction="#changeTab" prefHeight="35.0" prefWidth="32.0" text="X" AnchorPane.rightAnchor="0.0" />
+                        <Label fx:id="numeParcareLabel" alignment="CENTER" layoutX="21.0" layoutY="54.0" prefHeight="76.0" prefWidth="383.0" text="Parcarea: Nume interesant de parcare" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="21.0">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="numarLocuriLabel" alignment="CENTER" layoutX="108.0" layoutY="90.0" prefHeight="57.0" prefWidth="205.0" text="Numar de locuri libere: 7" textAlignment="CENTER" wrapText="true">
+                        <Label fx:id="numarLocuriLabel" alignment="CENTER" layoutX="110.0" layoutY="116.0" prefHeight="57.0" prefWidth="205.0" text="Numar de locuri libere: 7" textAlignment="CENTER" wrapText="true">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Label>
-                        <Button fx:id="vreauButton" layoutX="106.0" layoutY="264.0" mnemonicParsing="false" onAction="#vreauLoc" prefHeight="74.0" prefWidth="211.0" text="Vreau loc de parcare" />
-                        <Label fx:id="mesajLabel" alignment="CENTER" layoutX="106.0" layoutY="205.0" prefHeight="47.0" prefWidth="211.0" text="Loc rezervat cu succes!" textAlignment="CENTER">
+                        <Button fx:id="vreauButton" layoutX="107.0" layoutY="289.0" mnemonicParsing="false" onAction="#vreauLoc" prefHeight="74.0" prefWidth="211.0" text="Vreau loc de parcare" />
+                        <Label fx:id="mesajLabel" alignment="CENTER" layoutX="105.0" layoutY="231.0" prefHeight="47.0" prefWidth="211.0" text="Loc rezervat cu succes!" textAlignment="CENTER">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="masinaField" alignment="CENTER" layoutX="55.0" layoutY="147.0" prefHeight="51.0" prefWidth="311.0" text="Numar de Inmatriculare">
+                        <TextField fx:id="masinaField" alignment="CENTER" layoutX="55.0" layoutY="180.0" prefHeight="51.0" prefWidth="311.0" text="Numar de Inmatriculare">
                            <font>
                               <Font size="19.0" />
                            </font>
@@ -51,7 +52,6 @@
                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                      </opaqueInsets>
                   </AnchorPane>
-                  <Button fx:id="CLoseMenuParcareButton" layoutX="848.0" layoutY="197.0" mnemonicParsing="false" onAction="#changeTab" prefHeight="54.0" prefWidth="127.0" text="Close" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -59,20 +59,25 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <ListView fx:id="listView" layoutX="52.0" layoutY="360.0" prefHeight="267.0" prefWidth="935.0" />
-                  <Button alignment="CENTER" layoutX="365.0" layoutY="271.0" mnemonicParsing="false" onAction="#deleteList" prefHeight="72.0" prefWidth="127.0" text="Free All Rezervations" textAlignment="CENTER" wrapText="true" />
-                  <TextField fx:id="numeField" layoutX="103.0" layoutY="76.0" />
-                  <TextField fx:id="telefonField" layoutX="178.0" layoutY="143.0" />
-                  <Label layoutX="52.0" layoutY="79.0" prefHeight="20.0" prefWidth="45.0" text="Nume:">
+                  <ListView fx:id="listView" layoutX="52.0" layoutY="50.0" prefHeight="611.0" prefWidth="770.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="224.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="50.0" />
+                  <Button alignment="CENTER" layoutX="34.0" layoutY="292.0" mnemonicParsing="false" onAction="#deleteList" prefHeight="54.0" prefWidth="156.0" text="Free All Rezervations" textAlignment="CENTER" wrapText="true" />
+                  <TextField fx:id="numeField" layoutX="39.0" layoutY="53.0" />
+                  <TextField fx:id="telefonField" layoutX="38.0" layoutY="115.0" />
+                  <Label layoutX="91.0" layoutY="33.0" prefHeight="20.0" prefWidth="45.0" text="Nume:">
                      <font>
                         <Font size="14.0" />
                      </font></Label>
-                  <Label layoutX="52.0" layoutY="146.0" prefHeight="20.0" prefWidth="116.0" text="Numar de telefon:">
+                  <Label layoutX="55.0" layoutY="95.0" prefHeight="20.0" prefWidth="116.0" text="Numar de telefon:">
                      <font>
                         <Font size="14.0" />
                      </font></Label>
-                  <Button layoutX="52.0" layoutY="270.0" mnemonicParsing="false" onAction="#editProfile" prefHeight="72.0" prefWidth="95.0" text="Edit Profile" />
-                  <Button fx:id="saveButton" layoutX="202.0" layoutY="271.0" mnemonicParsing="false" onAction="#saveProfile" prefHeight="72.0" prefWidth="105.0" text="Save Changes" />
+                  <Button layoutX="34.0" layoutY="223.0" mnemonicParsing="false" onAction="#editProfile" prefHeight="54.0" prefWidth="156.0" text="Edit Profile" />
+                  <Button fx:id="saveButton" layoutX="35.0" layoutY="159.0" mnemonicParsing="false" onAction="#saveProfile" prefHeight="54.0" prefWidth="156.0" text="Save Changes" />
+                  <Label layoutX="535.0" layoutY="23.0" prefHeight="20.0" prefWidth="148.0" text="Rezervarile mele:" textAlignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                </children></AnchorPane>
       </content>
     </Tab>
