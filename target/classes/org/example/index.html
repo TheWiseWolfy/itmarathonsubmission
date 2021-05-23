@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Map</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <style type="text/css">
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+        width: 100%;
+      }
+
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+    <script type="text/javascript" src='map.js' ></script>
+
+
+</head>
+<body>
+
+        <div><input id="input" type="text"></div>
+        <button onclick="sendToJava();">to lower case</button>
+        <div id="result"></div>
+
+        <script type="text/javascript">
+            function sendToJava () {
+                var s = document.getElementById('input').value;
+                javaConnector.toLowerCase(s);
+            };
+
+            var jsConnector = {
+                showResult: function (result) {
+                    document.getElementById('result').innerHTML = result;
+                }
+            };
+
+            function getJsConnector() {
+                return jsConnector;
+            };
+        </script>
+
+<div id="map"></div>
+
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1GOhtiWJZoPQ3yml6iqhgloConMLiwGI&callback=initMap">
+      async
+    </script>
+</body>
+</html>

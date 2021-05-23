@@ -52,7 +52,7 @@ public class PrimaryController implements Initializable {
         parcareInfo = new ParcareInfo();
         webView.setZoom(mapInfo.getZoom());
         engine  = webView.getEngine();
-        loadMap("http://www.google.com");
+        loadMap(this.getClass().getResource( "index.html" ).toString());
         changeProfile(false);
         menuParcare.setDisable(true);
         menuParcare.setVisible(false);
