@@ -1,24 +1,25 @@
 package org.example;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
+import javafx.concurrent.Worker;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import netscape.javascript.JSObject;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class PrimaryController implements Initializable {
 
     private MapInfo mapInfo;
     private ParcareInfo parcareInfo;
+    private UserInfo userInfo;
 
     @FXML
     private WebView webView;
@@ -30,7 +31,7 @@ public class PrimaryController implements Initializable {
     private TextField numeField, masinaField, telefonField;
 
     @FXML
-    private Button saveButton,vreauButton;
+    private Button saveButton,vreauButton,CLoseMenuParcareButton;
 
     @FXML
     private AnchorPane menuParcare;
@@ -41,29 +42,58 @@ public class PrimaryController implements Initializable {
     @FXML
     private ListView listView;
 
-    @FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
-    }
+    private ContextMenu menuLista;
 
-
+    private JavaConnector javaConnector = null;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         mapInfo = new MapInfo();
         parcareInfo = new ParcareInfo();
+        userInfo = new UserInfo();
+
         webView.setZoom(mapInfo.getZoom());
         engine  = webView.getEngine();
+        engine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+            if (Worker.State.SUCCEEDED == newValue) {
+                JSObject javascriptConnector = (JSObject) engine.executeScript("getJsConnector()");
+                javaConnector = new JavaConnector(javascriptConnector);
+                JSObject window = (JSObject) engine.executeScript("window");
+                window.setMember("javaConnector", javaConnector);
+            }
+        });
 
-        JavaScriptCommunication jav = new JavaScriptCommunication();
-        jav.initializeListeners( engine);
+        menuLista = new ContextMenu();
+        MenuItem deleteRezervation = new MenuItem("Free Rezervation");
+        deleteRezervation.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                int index = listView.getSelectionModel().getSelectedIndex();
+                userInfo.getListaRezervari().remove(index);
+                listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
+                updateNumarLocuri(parcareInfo.getNumarLocuri() + 1);
+            }
+        });
+
+        menuLista.getItems().add(deleteRezervation);
+
+        listView.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+
+            @Override
+            public void handle(ContextMenuEvent event) {
+                menuLista.show(listView,event.getScreenX(), event.getScreenY());
+            }
+        });
 
         loadMap(this.getClass().getResource( "index.html" ).toString());
         changeProfile(false);
-        menuParcare.setDisable(true);
-        menuParcare.setVisible(false);
-        if(parcareInfo.getNumarLocuri() <= 0)
-            vreauButton.setDisable(true);
+        displayMenuParcare(false);
+    }
+
+    public void updateNumarLocuri(int nr) {
+        parcareInfo.setNumarLocuri(nr);
+        numarLocuriLabel.setText("Numar de locuri libere: " + parcareInfo.getNumarLocuri());
     }
 
     public void loadMap(String url) {
@@ -79,10 +109,19 @@ public class PrimaryController implements Initializable {
         webView.setZoom(mapInfo.getZoom());
     }
 
+    public void displayMenuParcare(boolean dis) {
+        CLoseMenuParcareButton.setDisable(!dis);
+        menuParcare.setDisable(!dis);
+        menuParcare.setVisible(dis);
+        mesajLabel.setVisible(!dis);
+        if(dis) {
+            if(parcareInfo.getNumarLocuri() <= 0)
+                vreauButton.setDisable(true);
+        }
+    }
+
     public void pinClick() {
-        menuParcare.setDisable(false);
-        menuParcare.setVisible(true);
-        mesajLabel.setVisible(false);
+        displayMenuParcare(true);
     }
 
     public void changeProfile(boolean edit) {
@@ -92,15 +131,32 @@ public class PrimaryController implements Initializable {
         telefonField.setEditable(edit);
     }
 
-    public void vreauLoc() {
-        mesajLabel.setVisible(false);
-        parcareInfo.setNumarLocuri(parcareInfo.getNumarLocuri() - 1);
-        numarLocuriLabel.setText("Numar de locuri libere: " + parcareInfo.getNumarLocuri());
-        mesajLabel.setText("Succes!");
-        mesajLabel.setVisible(true);
+    public void makeRezervation() throws RezervationException {
+        if(userInfo.invalid())
+            throw new RezervationException();
+        updateNumarLocuri(parcareInfo.getNumarLocuri() - 1);
         if(parcareInfo.getNumarLocuri() <= 0)
             vreauButton.setDisable(true);
-        listView.getItems().add(numeParcareLabel.getText());
+
+        RezervationClass rezervare = new RezervationClass(numeParcareLabel.getText(), userInfo.getCar());
+        userInfo.getListaRezervari().add(rezervare);
+
+
+        listView.getItems().add(numeParcareLabel.getText() + " | " + userInfo.getCar());
+
+        mesajLabel.setVisible(true);
+        mesajLabel.setText("Succes!");
+    }
+
+    public void vreauLoc() {
+        mesajLabel.setVisible(false);
+        try{
+            makeRezervation();
+        } catch (RezervationException e) {
+            Alert emptyProfile = new Alert(Alert.AlertType.ERROR,"Please first complete your profile!");
+            emptyProfile.show();
+            displayMenuParcare(false);
+        }
     }
 
     public void editProfile() {
@@ -108,11 +164,20 @@ public class PrimaryController implements Initializable {
     }
 
     public void saveProfile() {
+        userInfo.setCar(masinaField.getText());
+        userInfo.setTel(telefonField.getText());
+        userInfo.setName(numeField.getText());
         changeProfile(false);
     }
 
     public void deleteList() {
+        updateNumarLocuri(parcareInfo.getNumarLocuri() + listView.getItems().size());
         listView.getItems().clear();
+    }
+
+    @FXML
+    public void changeTab() {
+        displayMenuParcare(false);
     }
 }
 
