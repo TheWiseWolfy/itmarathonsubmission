@@ -27,17 +27,7 @@
 
 </head>
 <body>
-
-        <div><input id="input" type="text"></div>
-        <button onclick="sendToJava();">to lower case</button>
-        <div id="result"></div>
-
         <script type="text/javascript">
-            function sendToJava () {
-                var s = document.getElementById('input').value;
-                javaConnector.toLowerCase(s);
-            };
-
             var jsConnector = {
                 showResult: function (result) {
                     document.getElementById('result').innerHTML = result;
